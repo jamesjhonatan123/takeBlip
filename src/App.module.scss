@@ -1,0 +1,49 @@
+.container {
+  padding: 2rem 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    span {
+      color: var(--city);
+      font-weight: 800;
+      font-size: 2rem;
+    }
+    .headerSearch {
+      display: flex;
+      gap: 0.5rem;
+      input {
+        width: 312px;
+        border: 1px solid #d2dfe6;
+        border-radius: 8px;
+        padding: 0.5rem;
+      }
+    }
+  }
+  main {
+    .favorites {
+      & > span {
+        font-size: 2rem;
+        color: var(--desk);
+        font-weight: 700;
+      }
+      p {
+        margin-top: 1rem;
+      }
+      .cards {
+        margin-top: 1rem;
+      }
+    }
+    hr {
+      color: #d2dfe6;
+      margin: 2.5rem 0;
+    }
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+  }
+}

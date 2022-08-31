@@ -1,0 +1,21 @@
+:root {
+  --white: #ffffff;
+  --onix: #1a2437;
+  --city: #56616e;
+  --desk: #607b99;
+  --rooftop: #738192;
+  --mainBlip: #2cc3d5;
+  --background-70: #f5f8f9;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--background-70);
+  -webkit-font-smoothing: antialiased;
+  font-family: "Nunito Sans", sans-serif;
+}

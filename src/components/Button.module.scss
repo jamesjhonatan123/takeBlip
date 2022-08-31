@@ -1,0 +1,17 @@
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2.5rem;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  word-wrap: none;
+  background: var(--mainBlip);
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--white);
+}
