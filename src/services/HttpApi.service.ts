@@ -6,4 +6,8 @@ const Get = async (uri: string, filter?: string) => {
   });
 };
 
-export const HttpApiService = { Get };
+const GetDetails = async (shortName: string) => {
+  return await api.get(`${shortName}/details`);
+};
+
+export const HttpApiService = { Get, GetDetails };

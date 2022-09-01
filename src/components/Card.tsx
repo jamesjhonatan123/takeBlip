@@ -3,7 +3,7 @@ import starFilledIcon from "../assets/starFilledIcon.svg";
 import styles from "./Card.module.scss";
 import { useContext } from "react";
 import { CardsContext } from "../context/cards";
-import { generateColor } from "../utils";
+import { formatDate } from "../utils";
 
 interface CardProps {
   visualization: "block" | "list";
@@ -12,6 +12,8 @@ interface CardProps {
   isFavorite?: boolean;
   index: number;
   color: string;
+  created: string;
+  handleDetails: any;
 }
 
 export const Card = ({
@@ -21,6 +23,8 @@ export const Card = ({
   isFavorite,
   index,
   color,
+  created,
+  handleDetails,
 }: CardProps) => {
   const { cards, setCards } = useContext(CardsContext);
   const handleFavorite = () => {
@@ -28,8 +32,12 @@ export const Card = ({
     changeCards[index].isFavorite = !isFavorite;
     setCards(changeCards);
   };
+  const date = new Date(created);
   return (
     <div
+      onClick={() => {
+        handleDetails(name);
+      }}
       className={`${styles.post} 
     ${visualization === "block" ? styles.block : styles.list}`}
     >
@@ -46,10 +54,17 @@ export const Card = ({
           onClick={() => handleFavorite()}
         />
       )}
-      <div>
-        <i style={{ backgroundColor: color }} />
-        <strong>{name}</strong>
-        <span>{type}</span>
+      <div className={styles.content}>
+        <div>
+          <div className={styles.header}>
+            <i style={{ backgroundColor: color }} />
+            <strong>{name}</strong>
+          </div>
+          {visualization === "block" && <span>{type}</span>}
+          {visualization === "list" && (
+            <time>Created at {formatDate(date)}</time>
+          )}
+        </div>
       </div>
     </div>
   );

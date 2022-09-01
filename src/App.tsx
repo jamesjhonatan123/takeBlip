@@ -1,19 +1,24 @@
 import { Button } from "./components/Button";
-import blocksIcon from "./assets/organize-blocks.svg";
-import listIcon from "./assets/organize-list.svg";
-
+import blocksIconSelected from "./assets/organizeBlocks.svg";
+import listIconUnselected from "./assets/organizeList.svg";
+import blocksIconUnselected from "./assets/organizeBlocksSelected.svg";
+import listIconSelected from "./assets/organizeListSelected.svg";
 import styles from "./App.module.scss";
 import "./global.scss";
 import { Card } from "./components/Card";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CardsContext } from "./context/cards";
-import { ICards, ICardsContext } from "./types/cards.dto";
+import { ICards, ICardsContext, ICardsDetailsState } from "./types/cards.dto";
 import { orderByCreation, orderByName } from "./utils";
+import { HttpApiService } from "./services/HttpApi.service";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const [search, setSearch] = useState("");
   const [visualization, setVisualization] = useState<"block" | "list">("block");
-  const { cards, setCards } = useContext<ICardsContext>(CardsContext);
+  const { cards, setCards, details, setDetails } =
+    useContext<ICardsContext>(CardsContext);
+  let navigate = useNavigate();
   const handleOrderByCreated = () => {
     const changeCards = orderByCreation(cards);
     setCards([...changeCards]);
@@ -25,6 +30,56 @@ function App() {
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);
   };
+
+  const handleDetails = async (name: string) => {
+    let nameFormated = name;
+    if (name.includes(" ")) {
+      nameFormated = name.split(" ").join("_");
+    }
+    await HttpApiService.GetDetails(nameFormated.toLowerCase()).then(
+      (response) => {
+        setDetails(response.data);
+        navigate("details");
+      }
+    );
+  };
+  const selectedIconBlockList = () => {
+    switch (visualization) {
+      case "block":
+        return (
+          <>
+            <img
+              onClick={() => setVisualization("block")}
+              src={blocksIconSelected}
+              alt="icone de blocos selecionado"
+            />
+            <img
+              onClick={() => setVisualization("list")}
+              src={listIconUnselected}
+              alt="icone de lista"
+            />
+          </>
+        );
+      case "list":
+        return (
+          <>
+            <img
+              onClick={() => setVisualization("block")}
+              src={blocksIconUnselected}
+              alt="icone de blocos"
+            />
+            <img
+              onClick={() => setVisualization("list")}
+              src={listIconSelected}
+              alt="icone de lista selecionado"
+            />
+          </>
+        );
+      default:
+        break;
+    }
+  };
+
   let regexSearch = RegExp(search, "gi");
   return (
     <div className="App">
@@ -40,16 +95,7 @@ function App() {
             />
             <Button onClick={handleOrderByName}>Order By Name</Button>
             <Button onClick={handleOrderByCreated}>Order by creation</Button>
-            <img
-              onClick={() => setVisualization("block")}
-              src={blocksIcon}
-              alt="icone de blocos"
-            />
-            <img
-              onClick={() => setVisualization("list")}
-              src={listIcon}
-              alt="icone de lista"
-            />
+            {selectedIconBlockList()}
           </div>
         </div>
         <main>
@@ -71,6 +117,8 @@ function App() {
                         type={card.type}
                         isFavorite={card.isFavorite}
                         color={card.color}
+                        created={card.created}
+                        handleDetails={handleDetails}
                       />
                     )
                   : card.isFavorite && (
@@ -82,6 +130,8 @@ function App() {
                         type={card.type}
                         isFavorite={card.isFavorite}
                         color={card.color}
+                        created={card.created}
+                        handleDetails={handleDetails}
                       />
                     )
               )}
@@ -101,6 +151,8 @@ function App() {
                       type={card.type}
                       isFavorite={card.isFavorite}
                       color={card.color}
+                      created={card.created}
+                      handleDetails={handleDetails}
                     />
                   )
                 : !card.isFavorite && (
@@ -112,6 +164,8 @@ function App() {
                       type={card.type}
                       isFavorite={card.isFavorite}
                       color={card.color}
+                      created={card.created}
+                      handleDetails={handleDetails}
                     />
                   )
             )}
