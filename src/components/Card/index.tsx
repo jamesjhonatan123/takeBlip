@@ -1,11 +1,11 @@
-import starIcon from "../assets/starIcon.svg";
-import starFilledIcon from "../assets/starFilledIcon.svg";
-import styles from "./Card.module.scss";
+import starIcon from "../../assets/starIcon.svg";
+import starFilledIcon from "../../assets/starFilledIcon.svg";
+import styles from "./styles.module.scss";
 import { useContext } from "react";
-import { CardsContext } from "../context/cards";
-import { formatDate } from "../utils";
+import { CardsContext } from "../../context/cards";
+import { formatDate } from "../../utils";
 
-interface CardProps {
+export type CardProps = {
   visualization: "block" | "list";
   name: string;
   type: string;
@@ -14,9 +14,9 @@ interface CardProps {
   color: string;
   created: string;
   handleDetails: any;
-}
+};
 
-export const Card = ({
+const Card = ({
   visualization,
   name,
   type,
@@ -35,9 +35,7 @@ export const Card = ({
   const date = new Date(created);
   return (
     <div
-      onClick={() => {
-        handleDetails(name);
-      }}
+      data-testid={"card-id"}
       className={`${styles.post} 
     ${visualization === "block" ? styles.block : styles.list}`}
     >
@@ -54,7 +52,12 @@ export const Card = ({
           onClick={() => handleFavorite()}
         />
       )}
-      <div className={styles.content}>
+      <div
+        onClick={() => {
+          handleDetails(name);
+        }}
+        className={styles.content}
+      >
         <div>
           <div className={styles.header}>
             <i style={{ backgroundColor: color }} />
@@ -69,3 +72,5 @@ export const Card = ({
     </div>
   );
 };
+
+export default Card;

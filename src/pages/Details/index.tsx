@@ -1,21 +1,19 @@
-import botPhoto from "../assets/botPhoto.svg";
-import ballon from "../assets/ballon.svg";
-import activeUsers from "../assets/activeUsers.svg";
-import receivedMessages from "../assets/receivedMessages.svg";
-import sendedMessages from "../assets/sendedMessages.svg";
-import { Button } from "../components/Button";
-import styles from "./Details.module.scss";
+import botPhoto from "../../assets/botPhoto.svg";
+import ballon from "../../assets/ballon.svg";
+import activeUsers from "../../assets/activeUsers.svg";
+import receivedMessages from "../../assets/receivedMessages.svg";
+import sendedMessages from "../../assets/sendedMessages.svg";
+import styles from "./styles.module.scss";
 import { useContext } from "react";
-import { ICardsContext } from "../types/cards.dto";
-import { CardsContext } from "../context/cards";
-import { formatDate, numberFormat } from "../utils";
+import { ICardsContext } from "../../types/cards.dto";
+import { CardsContext } from "../../context/cards";
+import { formatDate, numberFormat } from "../../utils";
+import { Button } from "../../components";
 
-export default function Details() {
-  const { cards, setCards, details, setDetails } =
-    useContext<ICardsContext>(CardsContext);
-
+const Details: any = () => {
+  const { details } = useContext<ICardsContext>(CardsContext);
   return (
-    <div className={styles.container}>
+    <div data-testid={"Details-id"} className={styles.container}>
       <header>
         <div className={styles.photoName}>
           <img src={details?.image ? details.image : botPhoto} />
@@ -80,4 +78,6 @@ export default function Details() {
       </footer>
     </div>
   );
-}
+};
+
+export default Details;

@@ -13,7 +13,7 @@ export interface ICardsContext {
   setDetails: (object: ICardsDetails) => void;
 }
 
-interface ICardsDetails {
+export interface ICardsDetails {
   shortName: string;
   description: string;
   image: string;
